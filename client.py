@@ -8,8 +8,8 @@ x.connect(("127.0.0.1", 8000))
 def receive():
     while True:
         try:
-            message = client.recv(1024).decode('ascii')
-            if message == 'NAME':
+            message = x.recv(1024).decode('ascii')
+            if message == 'name':
                 x.send(y.encode('ascii'))
             else:
                 print(message)
@@ -22,7 +22,7 @@ def receive():
 def write():
     while True:
         message = '{}: {}'.format(y, input(''))
-        client.send(message.encode('ascii'))
+        x.send(message.encode('ascii'))
 
 
 receive_thread = threading.Thread(target = receive)
