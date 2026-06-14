@@ -13,7 +13,7 @@ client = []
 nickname = []
 
 def live(message):
-    for x in clinet:
+    for x in client:
         x.send(message)
 
 def connection(x):
@@ -25,7 +25,7 @@ def connection(x):
             index = client.index(x)
             client.remove(x)
             x.close()
-            nickname = y[index]
+            y = nickname[index]
             live("{} left the chat." .format(y).encode('ascii'))
             nickname.remove(y)
             break
@@ -37,15 +37,15 @@ def get_message():
 
 
         x.send('name'.encode('ascii'))
-        y = x.recv(1024).decode(ascii)
+        y = x.recv(1024).decode('ascii')
         nickname.append(y)
         client.append(x)
 
         print("nickname {}" .format(y))
         live("{} is joined the chat." .format(y).encode('ascii'))
-        client.send('Connected to the server.' .encode('ascii'))
+        x.send('Connected to the server.' .encode('ascii'))
 
-        thread = threading.Thread(target = handle, args=(client,))
+        thread = threading.Thread(target = connection, args=(x,))
         thread.start()
 
-    return get_message()
+get_message()
